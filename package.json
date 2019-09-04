@@ -1,0 +1,45 @@
+{
+	"name": "db-clean-station-name",
+	"description": "Remove noise and fix common typographic errors in Deutsche Bahn (German railways) station names.",
+	"version": "0.0.0",
+	"keywords": [
+		"db",
+		"hafas",
+		"station",
+		"german",
+		"germany",
+		"deutsche",
+		"bahn",
+		"railway"
+	],
+	"author": "Julius Tens <mail@juliustens.eu>",
+	"homepage": "https://github.com/juliuste/db-clean-station-name",
+	"repository": "juliuste/db-clean-station-name",
+	"bugs": "https://github.com/juliuste/db-clean-station-name/issues",
+	"main": "lib/index.js",
+	"files": [
+		"lib/*"
+	],
+	"devDependencies": {
+		"depcheck": "^0.8.3",
+		"eslint": "^6.3.0",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^9.2.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"tape": "^4.11.0",
+		"tape-promise": "^4.0.0"
+	},
+	"scripts": {
+		"check-deps": "depcheck",
+		"lint": "eslint lib test.js",
+		"fix": "eslint --fix lib test.js",
+		"test": "npm run lint && npm run check-deps && node test",
+		"prepublishOnly": "npm test"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"license": "ISC",
+}
