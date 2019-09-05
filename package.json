@@ -28,12 +28,15 @@
 		"eslint-plugin-node": "^9.2.0",
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-standard": "^4.0.1",
-		"tape": "^4.11.0"
+		"ndjson": "^1.5.0",
+		"tape": "^4.11.0",
+		"through2-filter": "^3.0.0",
+		"through2-map": "^3.0.0"
 	},
 	"scripts": {
 		"check-deps": "depcheck",
-		"lint": "eslint lib test.js",
-		"fix": "eslint --fix lib test.js",
+		"lint": "eslint lib test.js dev.js",
+		"fix": "eslint --fix lib test.js dev.js",
 		"test": "npm run lint && npm run check-deps && node test",
 		"prepublishOnly": "npm test"
 	},
