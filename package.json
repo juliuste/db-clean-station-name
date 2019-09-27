@@ -21,6 +21,11 @@
 		"lib/*"
 	],
 	"devDependencies": {
+		"@turf/area": "^6.0.1",
+		"@turf/bbox": "^6.0.1",
+		"@turf/bbox-polygon": "^6.0.1",
+		"@turf/flatten": "^5.1.5",
+		"@turf/truncate": "^6.0.1",
 		"depcheck": "^0.8.3",
 		"eslint": "^6.4.0",
 		"eslint-config-standard": "^14.1.0",
@@ -28,15 +33,19 @@
 		"eslint-plugin-node": "^10.0.0",
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-standard": "^4.0.1",
+		"german-administrative-areas": "^0.2.0",
+		"got": "^9.6.0",
 		"ndjson": "^1.5.0",
 		"tape": "^4.11.0",
 		"through2-filter": "^3.0.0",
-		"through2-map": "^3.0.0"
+		"through2-map": "^3.0.0",
+		"wikidata-sdk": "^7.0.7"
 	},
 	"scripts": {
+		"build": "node build/index > ./data.json",
 		"check-deps": "depcheck",
-		"lint": "eslint lib test.js dev.js",
-		"fix": "eslint --fix lib test.js dev.js",
+		"lint": "eslint lib build test.js dev.js",
+		"fix": "eslint --fix lib build test.js dev.js",
 		"test": "npm run lint && npm run check-deps && node test",
 		"prepublishOnly": "npm test"
 	},
@@ -45,6 +54,9 @@
 	},
 	"license": "ISC",
 	"dependencies": {
-		"lodash": "^4.17.15"
+		"@turf/circle": "^6.0.1",
+		"geojson-rbush": "^3.1.2",
+		"lodash": "^4.17.15",
+		"validate-fptf": "^3.0.0"
 	}
 }
