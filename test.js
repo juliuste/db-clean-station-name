@@ -2,6 +2,7 @@
 
 const tape = require('tape')
 const dbCleanStationName = require('.')
+const dbCleanStationNameWithLocation = require('./lib/with-location')
 const {
 	replaceUnderscores,
 	correctApostrophes,
@@ -19,10 +20,13 @@ const {
 	replaceBei,
 	replaceRichtung,
 	replaceLocationAbbreviation,
+	replaceAbbreviatedWord,
 	removeBracketWithAbbreviation,
 	replaceStreet,
 
-	removeLineNames
+	removeLineNames,
+
+	removeFirstLevelBrackets
 } = require('./lib/helpers')
 
 tape('helpers', t => {
@@ -35,6 +39,7 @@ tape('helpers', t => {
 	t.equal(removeLeadingAndTrailingRelicts('- (abc d ef g" ;'), '(abc d ef g"', 'removeLeadingAndTrailingRelicts')
 	t.equal(removeLeadingAndTrailingRelicts('a, bc,'), 'a, bc', 'removeLeadingAndTrailingRelicts')
 	t.equal(removeLeadingAndTrailingRelicts('a, bc; 	'), 'a, bc', 'removeLeadingAndTrailingRelicts')
+	t.equal(removeLeadingAndTrailingRelicts('+1 und 2 '), '1 und 2', 'removeLeadingAndTrailingRelicts')
 	t.equal(removeDuplicateSigns('a,  ; b. c. d. ,e, . f'), 'a; b. c. d. ,e. f', 'removeDuplicateSigns')
 	t.equal(correctSignWhitespace('a.bc	:def g,h i,  j. H.-Mann-Wg./ Kaiserdamm, Bf., Test / as a.d. Oder i.H.v. Test'), 'a. bc: def g, h i,  j. H.-Mann-Wg./Kaiserdamm, Bf., Test/as a.d. Oder i.H.v. Test', 'correctSignWhitespace')
 	t.equal(correctBracketWhitespace('a(bce )fg(hi) jkl (m), nop'), 'a (bce) fg (hi) jkl (m), nop', 'correctBracketWhitespace')
@@ -48,11 +53,13 @@ tape('helpers', t => {
 		'Eisenach (Thüringen), Gotha (Thüringen), Thür Alt (Thür. Mittelgebirge)',
 		'replaceLocationAbbreviation'
 	)
+	t.equal(replaceAbbreviatedWord('Hbf', 'Hauptbahnhof')('Hbf Hbf-Süd Schuhbf Hbf'), 'Hauptbahnhof Hauptbahnhof-Süd Schuhbf Hauptbahnhof', 'replaceAbbreviatedWord')
 	t.equal(removeBracketWithAbbreviation('S+U')('S+U Frankfurter Allee (S+U) und (U) Westhafen (S+U)'), 'S+U Frankfurter Allee   und (U) Westhafen  ', 'removeBracketWithAbbreviation')
-	t.equal(replaceStreet('Kantstr, Kantstr., Str. des 17. Juni, Strauch'), 'Kantstr, Kantstraße, Straße des 17. Juni, Strauch', 'replaceStreet')
-	t.equal(replaceStreet('Str zur Laus, Kaiserin-Augusta-Str, Kantstr, Kantstr'), 'Straße zur Laus, Kaiserin-Augusta-Straße, Kantstr, Kantstr', 'replaceStreet')
+	t.equal(replaceStreet('Kantstr, Kantstr., Str. des 17. Juni, Strauch'), 'Kantstr, Kantstraße , Straße  des 17. Juni, Strauch', 'replaceStreet')
+	t.equal(replaceStreet('Str zur Laus, Kaiserin-Augusta-Str, Kantstr, Kantstr'), 'Straße  zur Laus, Kaiserin-Augusta-Straße , Kantstr, Kantstr', 'replaceStreet')
 
 	t.equal(removeLineNames('(S 4) Frankfurter Allee U5 (U 5) B12 (S1) U 5, Richtung A10 und U146,U7'), '( ) Frankfurter Allee   ( ) B12 ( )  , Richtung A10 und U146, ', 'removeLineNames')
+	t.equal(removeFirstLevelBrackets('Hallo (Welt, dies ist) ein (Experiment (zweitens)) und erstens (a'), 'Hallo ein (Experiment) und erstens (a', 'removeFirstLevelBrackets')
 	t.end()
 })
 
@@ -60,6 +67,42 @@ tape('main module', t => {
 	t.equal(
 		dbCleanStationName('- Yorckstr. S1, U 2, [U5] (S+U), Abzw. Kassel (Thür) Ri Aum.str. Frankfurt(Main),'),
 		'Yorckstraße, Abzweig Kassel (Thüringen) Richtung Aum.straße Frankfurt (Main)'
+	)
+	t.end()
+})
+
+tape('with-location', t => {
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Berlin Jungfernheide (S)', { latitude: 52.530408, longitude: 13.299424 }),
+		{ full: 'Berlin Jungfernheide', short: 'Jungfernheide', matchedLocationIds: ['11000000'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Baden-Baden', { latitude: 48.790392, longitude: 8.190773 }),
+		{ full: 'Baden-Baden', short: null, matchedLocationIds: [] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('-Berlin Hbf,Potsdam', { longitude: 13.0991973, latitude: 52.404288 }),
+		{ full: 'Berlin Hbf, Potsdam', short: 'Hauptbahnhof', matchedLocationIds: ['12054000', '11000000'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Berlin Süd (asdf), Potsdam', { longitude: 13.0991973, latitude: 52.404288 }),
+		{ full: 'Berlin Süd (asdf), Potsdam', short: null, matchedLocationIds: ['12054000', '11000000'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Berlin Hbf (Washingtonplatz)', { longitude: 13.0991973, latitude: 52.404288 }),
+		{ full: 'Berlin Hbf (Washingtonplatz)', short: 'Hauptbahnhof (Washingtonplatz)', matchedLocationIds: ['11000000'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Berlin (Washingtonplatz)', { longitude: 13.0991973, latitude: 52.404288 }),
+		{ full: 'Berlin (Washingtonplatz)', short: null, matchedLocationIds: [] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Kemtau B180, Burkhardtsdorf', { longitude: 12.959811, latitude: 50.740493 }),
+		{ full: 'Kemtau B180, Burkhardtsdorf', short: 'Kemtau B180', matchedLocationIds: ['14521120'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('Großmuß Kirchstr.18, Hausen (Niederbayern)', { longitude: 11.962125, latitude: 48.838367 }),
+		{ full: 'Großmuß Kirchstraße 18, Hausen (Niederbayern)', short: 'Großmuß Kirchstraße 18', matchedLocationIds: ['09273125'] }
 	)
 	t.end()
 })

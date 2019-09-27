@@ -41,7 +41,21 @@ Remove defined set of line and product names: *U1*, *(U)*, *(Bus)*, *(S 1)*, …
 
 There are some additional rules which aren't listed here, but those only affect a handful of stations or fix the result of other rules (e.g. removing duplicate whitespace).
 
-**What this module doesn't fix yet:** Location name inconsistencies, e.g. `Berlin Jungfernheide` vs. `Jungfernheide, Berlin`
+## Removing location names
+
+This module also offers a method to *attempt to* remove location names from station names, e.g. the `Berlin` in `Amrumer Straße, Berlin` or `Köln` in `Köln Messe/Deutz`. The module also has a blacklist for particles for which the location is never removed even if it was detected correctly, e.g. for `Frankfurt Süd`, where the remaining part wouldn't really make sense on its own.
+
+```js
+const cleanStationNameWithLocation = require('db-clean-station-name/lib/with-location')
+
+// you must provide a station name as well as a geolocation for that station
+const cleaned = cleanStationNameWithLocation('(S) Berlin Hauptbahnhof', { longitude: 13.0991973, latitude: 52.404288 })
+const result = {
+    full: 'Berlin Hauptbahnhof' // normal output of db-clean-station-name
+    short: 'Hauptbahnhof' // will be `null` if no locations were detected
+    matchedLocationIds: ['11000000'] // some id(s) corresponding to locations that were detected, you can use those to check e.g. if two stations are in the same city. will be empty of no location(s) were detected. note that for cases like `Frankfurt Süd`, where `short` will be null because nothing could be removed because of some blacklisted name, the list of matched location ids can still contain values
+}
+```
 
 ## Contributing
 
