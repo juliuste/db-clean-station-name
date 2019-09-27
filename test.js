@@ -9,9 +9,9 @@ const {
 
 	removeEmptyBrackets,
 	correctWhitespace,
+	removeLeadingAndTrailingRelicts,
 	removeDuplicateSigns,
 	correctSignWhitespace,
-	removeTrailingSigns,
 	correctBracketWhitespace,
 	correctAbbreviatedStreetWhitespace,
 
@@ -32,10 +32,11 @@ tape('helpers', t => {
 
 	t.equal(removeEmptyBrackets('a (b ) c d ( 	) e ( ) f( g )'), 'a (b ) c d   e   f( g )', 'removeEmptyBrackets')
 	t.equal(correctWhitespace(' abc   d	 ef	g  '), 'abc d ef g', 'correctWhitespace')
+	t.equal(removeLeadingAndTrailingRelicts('- (abc d ef g" ;'), '(abc d ef g"', 'removeLeadingAndTrailingRelicts')
+	t.equal(removeLeadingAndTrailingRelicts('a, bc,'), 'a, bc', 'removeLeadingAndTrailingRelicts')
+	t.equal(removeLeadingAndTrailingRelicts('a, bc; 	'), 'a, bc', 'removeLeadingAndTrailingRelicts')
 	t.equal(removeDuplicateSigns('a,  ; b. c. d. ,e, . f'), 'a; b. c. d. ,e. f', 'removeDuplicateSigns')
 	t.equal(correctSignWhitespace('a.bc	:def g,h i,  j. H.-Mann-Wg./ Kaiserdamm, Bf., Test / as a.d. Oder i.H.v. Test'), 'a. bc: def g, h i,  j. H.-Mann-Wg./Kaiserdamm, Bf., Test/as a.d. Oder i.H.v. Test', 'correctSignWhitespace')
-	t.equal(removeTrailingSigns('a, bc,'), 'a, bc', 'removeTrailingSigns')
-	t.equal(removeTrailingSigns('a, bc; 	'), 'a, bc', 'removeTrailingSigns')
 	t.equal(correctBracketWhitespace('a(bce )fg(hi) jkl (m), nop'), 'a (bce) fg (hi) jkl (m), nop', 'correctBracketWhitespace')
 	t.equal(correctAbbreviatedStreetWhitespace('Test. straße Test. Straße'), 'Test.straße Test. Straße', 'correctAbbreviatedStreetWhitespace')
 
@@ -56,7 +57,7 @@ tape('helpers', t => {
 
 tape('main module', t => {
 	t.equal(
-		dbCleanStationName('Yorckstr. S1, U 2, [U5] (S+U), Abzw. Kassel (Thür) Ri Aum.str. Frankfurt(Main),'),
+		dbCleanStationName('- Yorckstr. S1, U 2, [U5] (S+U), Abzw. Kassel (Thür) Ri Aum.str. Frankfurt(Main),'),
 		'Yorckstraße, Abzweig Kassel (Thüringen) Richtung Aum.straße Frankfurt (Main)'
 	)
 	t.end()
