@@ -55,8 +55,8 @@ tape('helpers', t => {
 	)
 	t.equal(replaceAbbreviatedWord({ short: 'Hbf', long: 'Hauptbahnhof' })('Hbf Hbf-Süd Schuhbf Hbf'), 'Hauptbahnhof Hauptbahnhof-Süd Schuhbf Hauptbahnhof', 'replaceAbbreviatedWord')
 	t.equal(removeBracketWithAbbreviation('S+U')('S+U Frankfurter Allee (S+U) und (U) Westhafen (S+U)'), 'S+U Frankfurter Allee   und (U) Westhafen  ', 'removeBracketWithAbbreviation')
-	t.equal(replaceStreet('Kantstr, Kantstr., Str. des 17. Juni, Strauch'), 'Kantstr, Kantstraße , Straße  des 17. Juni, Strauch', 'replaceStreet')
-	t.equal(replaceStreet('Str zur Laus, Kaiserin-Augusta-Str, Kantstr, Kantstr'), 'Straße  zur Laus, Kaiserin-Augusta-Straße , Kantstr, Kantstr', 'replaceStreet')
+	t.equal(replaceStreet('Kantstr, Kantstr., Str. des 17. Juni, Strauch'), 'Kantstraße , Kantstraße , Straße  des 17. Juni, Strauch', 'replaceStreet')
+	t.equal(replaceStreet('Str zur Laus, Kaiserin-Augusta-Str, Kantstr, Kantstr'), 'Straße  zur Laus, Kaiserin-Augusta-Straße , Kantstraße , Kantstraße ', 'replaceStreet')
 
 	t.equal(removeLineNames('(S 4) Frankfurter Allee U5 (U 5) B12 (S1) U 5, Richtung A10 und U146,U7'), '( ) Frankfurter Allee   ( ) B12 ( )  , Richtung A10 und U146, ', 'removeLineNames')
 	t.equal(removeFirstLevelBrackets('Hallo (Welt, dies ist) ein (Experiment (zweitens)) und erstens (a'), 'Hallo ein (Experiment) und erstens (a', 'removeFirstLevelBrackets')
@@ -69,8 +69,8 @@ tape('main module', t => {
 		'Yorckstraße, Abzweig Kassel (Thüringen) Richtung Aum.straße Frankfurt (Main)'
 	)
 	t.equal(
-		dbCleanStationName('Hp Szczecin Glowny'),
-		'Haltepunkt Szczecin Główny'
+		dbCleanStationName('Hp Szczecin Glowny Friedrichstr Strom'),
+		'Haltepunkt Szczecin Główny Friedrichstraße Strom'
 	)
 	t.end()
 })
