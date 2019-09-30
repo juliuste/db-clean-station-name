@@ -47,7 +47,7 @@
 		"lint": "eslint lib build test.js dev.js",
 		"fix": "eslint --fix lib build test.js dev.js",
 		"test": "npm run lint && npm run check-deps && node test",
-		"prepublishOnly": "npm test"
+		"prepublishOnly": "npm run build && npm test"
 	},
 	"engines": {
 		"node": ">=8"
