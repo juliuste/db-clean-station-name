@@ -1,7 +1,7 @@
 {
 	"name": "db-clean-station-name",
 	"description": "Remove noise and fix common typographic errors in Deutsche Bahn (German railways) station names.",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"keywords": [
 		"db",
 		"hafas",
