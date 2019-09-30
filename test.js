@@ -53,7 +53,7 @@ tape('helpers', t => {
 		'Eisenach (Thüringen), Gotha (Thüringen), Thür Alt (Thür. Mittelgebirge)',
 		'replaceLocationAbbreviation'
 	)
-	t.equal(replaceAbbreviatedWord('Hbf', 'Hauptbahnhof')('Hbf Hbf-Süd Schuhbf Hbf'), 'Hauptbahnhof Hauptbahnhof-Süd Schuhbf Hauptbahnhof', 'replaceAbbreviatedWord')
+	t.equal(replaceAbbreviatedWord({ short: 'Hbf', long: 'Hauptbahnhof' })('Hbf Hbf-Süd Schuhbf Hbf'), 'Hauptbahnhof Hauptbahnhof-Süd Schuhbf Hauptbahnhof', 'replaceAbbreviatedWord')
 	t.equal(removeBracketWithAbbreviation('S+U')('S+U Frankfurter Allee (S+U) und (U) Westhafen (S+U)'), 'S+U Frankfurter Allee   und (U) Westhafen  ', 'removeBracketWithAbbreviation')
 	t.equal(replaceStreet('Kantstr, Kantstr., Str. des 17. Juni, Strauch'), 'Kantstr, Kantstraße , Straße  des 17. Juni, Strauch', 'replaceStreet')
 	t.equal(replaceStreet('Str zur Laus, Kaiserin-Augusta-Str, Kantstr, Kantstr'), 'Straße  zur Laus, Kaiserin-Augusta-Straße , Kantstr, Kantstr', 'replaceStreet')
@@ -67,6 +67,10 @@ tape('main module', t => {
 	t.equal(
 		dbCleanStationName('- Yorckstr. S1, U 2, [U5] (S+U), Abzw. Kassel (Thür) Ri Aum.str. Frankfurt(Main),'),
 		'Yorckstraße, Abzweig Kassel (Thüringen) Richtung Aum.straße Frankfurt (Main)'
+	)
+	t.equal(
+		dbCleanStationName('Hp Szczecin Glowny'),
+		'Haltepunkt Szczecin Główny'
 	)
 	t.end()
 })
