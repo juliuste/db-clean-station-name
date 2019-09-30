@@ -18,7 +18,8 @@
 	"bugs": "https://github.com/juliuste/db-clean-station-name/issues",
 	"main": "lib/index.js",
 	"files": [
-		"lib/*"
+		"lib/*",
+		"data.json"
 	],
 	"devDependencies": {
 		"@turf/area": "^6.0.1",
