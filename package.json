@@ -1,34 +1,49 @@
 {
 	"name": "db-clean-station-name",
-	"description": "Remove noise and fix common typographic errors in Deutsche Bahn (German railways) station names.",
 	"version": "1.1.2",
+	"description": "Remove noise and fix common typographic errors in Deutsche Bahn (German railways) station names.",
 	"keywords": [
+		"bahn",
 		"db",
-		"hafas",
-		"station",
+		"deutsche",
 		"german",
 		"germany",
-		"deutsche",
-		"bahn",
-		"railway"
+		"hafas",
+		"railway",
+		"station"
 	],
-	"author": "Julius Tens <mail@juliustens.eu>",
 	"homepage": "https://github.com/juliuste/db-clean-station-name",
-	"repository": "juliuste/db-clean-station-name",
 	"bugs": "https://github.com/juliuste/db-clean-station-name/issues",
-	"main": "lib/index.js",
+	"repository": "juliuste/db-clean-station-name",
+	"license": "ISC",
+	"author": "Julius Tens <mail@juliustens.eu>",
 	"files": [
 		"lib/*",
 		"data.json"
 	],
+	"main": "lib/index.js",
+	"scripts": {
+		"build": "node build/index > ./data.json",
+		"check-deps": "depcheck",
+		"fix": "eslint --fix lib build test.js dev.js",
+		"lint": "eslint lib build test.js dev.js",
+		"prepublishOnly": "npm run build && npm test",
+		"test": "npm run lint && npm run check-deps && node test"
+	},
+	"dependencies": {
+		"@turf/circle": "^6.0.1",
+		"geojson-rbush": "^3.1.2",
+		"lodash": "^4.17.15",
+		"validate-fptf": "^3.0.0"
+	},
 	"devDependencies": {
 		"@turf/area": "^6.0.1",
 		"@turf/bbox": "^6.0.1",
 		"@turf/bbox-polygon": "^6.0.1",
 		"@turf/flatten": "^5.1.5",
 		"@turf/truncate": "^6.0.1",
-		"depcheck": "^0.9.0",
-		"eslint": "^6.4.0",
+		"depcheck": "^0.9.1",
+		"eslint": "^6.6.0",
 		"eslint-config-standard": "^14.1.0",
 		"eslint-plugin-import": "^2.18.2",
 		"eslint-plugin-node": "^10.0.0",
@@ -42,22 +57,7 @@
 		"through2-map": "^3.0.0",
 		"wikidata-sdk": "^7.0.7"
 	},
-	"scripts": {
-		"build": "node build/index > ./data.json",
-		"check-deps": "depcheck",
-		"lint": "eslint lib build test.js dev.js",
-		"fix": "eslint --fix lib build test.js dev.js",
-		"test": "npm run lint && npm run check-deps && node test",
-		"prepublishOnly": "npm run build && npm test"
-	},
 	"engines": {
-		"node": ">=8"
-	},
-	"license": "ISC",
-	"dependencies": {
-		"@turf/circle": "^6.0.1",
-		"geojson-rbush": "^3.1.2",
-		"lodash": "^4.17.15",
-		"validate-fptf": "^3.0.0"
+		"node": ">=10"
 	}
 }
