@@ -65,7 +65,7 @@ tape('helpers', t => {
 
 tape('main module', t => {
 	t.equal(
-		dbCleanStationName('- Yorckstr. S1, U 2, [U5] (S+U), Abzw. Kassel (Thür) Ri Aum.str. Frankfurt(Main),'),
+		dbCleanStationName('- S Yorckstr. S1, U 2, [U5] (S+U), Abzw. Kassel (Thür) Ri Aum.str. Frankfurt(Main),'),
 		'Yorckstraße, Abzweig Kassel (Thüringen) Richtung Aum.straße Frankfurt (Main)'
 	)
 	t.equal(
@@ -79,6 +79,10 @@ tape('with-location', t => {
 	t.deepEqual(
 		dbCleanStationNameWithLocation('Berlin Jungfernheide (S)', { latitude: 52.530408, longitude: 13.299424 }),
 		{ full: 'Berlin Jungfernheide', short: 'Jungfernheide', matchedLocationIds: ['11000000'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('S+U Jungfernheide (Berlin)', { latitude: 52.530408, longitude: 13.299424 }),
+		{ full: 'Jungfernheide (Berlin)', short: 'Jungfernheide', matchedLocationIds: ['11000000'] }
 	)
 	t.deepEqual(
 		dbCleanStationNameWithLocation('Baden-Baden', { latitude: 48.790392, longitude: 8.190773 }),
