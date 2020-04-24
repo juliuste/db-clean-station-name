@@ -53,7 +53,7 @@
 		"german-administrative-areas": "^0.2.0",
 		"got": "^9.6.0",
 		"ndjson": "^1.5.0",
-		"tape": "^4.11.0",
+		"tape": "^5.0.0",
 		"through2-filter": "^3.0.0",
 		"through2-map": "^3.0.0",
 		"wikidata-sdk": "^7.0.7"
