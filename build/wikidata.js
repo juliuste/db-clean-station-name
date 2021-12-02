@@ -16,7 +16,7 @@ const buildWikidataNameDictionary = async () => {
     `)
 
 	console.error('fetching aliases from wikidata, this might take a minute…')
-	const { body } = await got.get(wikidataUrl, { json: true })
+	const body = await got.get(wikidataUrl).json()
 
 	console.error('processing results')
 	const simplified = wdk.simplify.sparqlResults(body)

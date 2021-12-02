@@ -41,24 +41,23 @@
 		"@turf/area": "^6.0.1",
 		"@turf/bbox": "^6.0.1",
 		"@turf/bbox-polygon": "^6.0.1",
-		"@turf/flatten": "^5.1.5",
+		"@turf/flatten": "^6.5.0",
 		"@turf/truncate": "^6.0.1",
-		"depcheck": "^0.9.1",
-		"eslint": "^6.6.0",
-		"eslint-config-standard": "^14.1.0",
+		"depcheck": "^1.4.2",
+		"eslint": "^7.32.0",
+		"eslint-config-standard": "^16.0.3",
 		"eslint-plugin-import": "^2.18.2",
-		"eslint-plugin-node": "^10.0.0",
-		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-standard": "^4.0.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-promise": "^5.2.0",
 		"german-administrative-areas": "^0.2.0",
-		"got": "^9.6.0",
-		"ndjson": "^1.5.0",
-		"tape": "^4.11.0",
+		"got": "^11.8.3",
+		"ndjson": "^2.0.0",
+		"tape": "^5.3.2",
 		"through2-filter": "^3.0.0",
 		"through2-map": "^3.0.0",
 		"wikidata-sdk": "^7.0.7"
 	},
 	"engines": {
-		"node": ">=10"
+		"node": ">=16"
 	}
 }
