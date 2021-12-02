@@ -20,7 +20,8 @@
 	"author": "Julius Tens <mail@juliustens.eu>",
 	"files": [
 		"lib/*",
-		"data.json"
+		"data.json",
+		"example.js"
 	],
 	"main": "lib/index.js",
 	"scripts": {
