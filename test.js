@@ -22,6 +22,7 @@ const {
 	replaceLocationAbbreviation,
 	replaceAbbreviatedWord,
 	removeBracketWithAbbreviation,
+	removeLeadingAbbreviation,
 	replaceStreet,
 
 	removeLineNames,
@@ -55,6 +56,8 @@ tape('helpers', t => {
 	)
 	t.equal(replaceAbbreviatedWord({ short: 'Hbf', long: 'Hauptbahnhof' })('Hbf Hbf-Süd Schuhbf Hbf'), 'Hauptbahnhof Hauptbahnhof-Süd Schuhbf Hauptbahnhof', 'replaceAbbreviatedWord')
 	t.equal(removeBracketWithAbbreviation('S+U')('S+U Frankfurter Allee (S+U) und (U) Westhafen (S+U)'), 'S+U Frankfurter Allee   und (U) Westhafen  ', 'removeBracketWithAbbreviation')
+	t.equal(removeLeadingAbbreviation('U')('U Wilmersdorfer Str./S Charlottenburg (Berlin)'), ' Wilmersdorfer Str./S Charlottenburg (Berlin)', 'removeLeadingAbbreviation')
+	t.equal(removeLeadingAbbreviation('S')('U Wilmersdorfer Str./S Charlottenburg (Berlin)'), 'U Wilmersdorfer Str./ Charlottenburg (Berlin)', 'removeLeadingAbbreviation')
 	t.equal(replaceStreet('Kantstr, Kantstr., Str. des 17. Juni, Strauch'), 'Kantstraße , Kantstraße , Straße  des 17. Juni, Strauch', 'replaceStreet')
 	t.equal(replaceStreet('Str zur Laus, Kaiserin-Augusta-Str, Kantstr, Kantstr'), 'Straße  zur Laus, Kaiserin-Augusta-Straße , Kantstraße , Kantstraße ', 'replaceStreet')
 
@@ -111,6 +114,10 @@ tape('with-location', t => {
 	t.deepEqual(
 		dbCleanStationNameWithLocation('Großmuß Kirchstr.18, Hausen (Niederbayern)', { longitude: 11.962125, latitude: 48.838367 }),
 		{ full: 'Großmuß Kirchstraße 18, Hausen (Niederbayern)', short: 'Großmuß Kirchstraße 18', matchedLocationIds: ['09273125'] }
+	)
+	t.deepEqual(
+		dbCleanStationNameWithLocation('U Wilmersdorfer Str./S Charlottenburg (Berlin)', { latitude: 52.505631, longitude: 13.305704 }),
+		{ full: 'Wilmersdorfer Straße/Charlottenburg (Berlin)', short: 'Wilmersdorfer Straße/Charlottenburg', matchedLocationIds: ['11000000'] }
 	)
 	t.end()
 })
