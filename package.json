@@ -52,6 +52,7 @@
 		"eslint-plugin-standard": "^4.0.1",
 		"german-administrative-areas": "^0.2.0",
 		"got": "^9.6.0",
+		"mri": "^1.2.0",
 		"ndjson": "^1.5.0",
 		"tape": "^4.11.0",
 		"through2-filter": "^3.0.0",
