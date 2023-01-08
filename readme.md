@@ -57,6 +57,31 @@ const result = {
 }
 ```
 
+## Usage from python
+
+To use `db-clean-station-name` from python, you could use e.g. [JSPyBridge](https://github.com/extremeheat/JSPyBridge):
+
+To install it, use
+
+```shell
+pip3 install javascript
+```
+
+Then you can import db-clean-station-name in the python script as follows:
+
+```python
+from javascript import require
+
+# Import db-clean-station-name or db-clean-station-name/lib/with-location
+clean_station_name = require("db-clean-station-name")
+clean_with_location= require("db-clean-station-name/lib/with-location")
+
+print(clean_station_name('S+U Berlin Yorckstr. S2 U7 (S+U)')) 
+print(clean_with_location('Leipzig Hbf (tief)', {'latitude': 51.345216, 'longitude': 12.379836}))
+```
+
+See also `example.py` for additional examples. 
+
 ## Contributing
 
 If you found a bug or want to propose a feature, feel free to visit [the issues page](https://github.com/juliuste/db-clean-station-name/issues).

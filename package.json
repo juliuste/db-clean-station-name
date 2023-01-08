@@ -21,7 +21,8 @@
 	"files": [
 		"lib/*",
 		"data.json",
-		"example.js"
+		"example.js",
+		"example.py"
 	],
 	"main": "lib/index.js",
 	"scripts": {
